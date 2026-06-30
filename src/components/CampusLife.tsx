@@ -397,7 +397,7 @@ const CampusLife: FC = () => {
               </p>
 
               {/* Exact sports listed in the text, shown as highly-styled interactive list badges with icons */}
-              <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-4">
+              <div className="grid grid-cols-2 sm:grid-cols-2 md:grid-cols-3 gap-4">
                 {[
                   { name: "Horse Riding", icon: Trophy },
                   { name: "Swimming", icon: Activity },

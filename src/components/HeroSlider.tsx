@@ -72,14 +72,15 @@ export default function HeroSlider() {
                 transition={{ delay: 0.4, duration: 0.8, ease: "easeOut" }}
                 className="flex flex-col sm:flex-row gap-3 sm:gap-4 items-center justify-start w-full"
               >
-                <motion.button 
+                <motion.a 
+                  href="#curriculum"
                   whileHover={{ scale: 1.02, y: -2 }}
                   whileTap={{ scale: 0.98 }}
                   className="w-full sm:w-auto inline-flex items-center justify-center gap-2 px-6 sm:px-8 py-3.5 bg-brand-orange text-white text-[11px] font-bold uppercase tracking-widest hover:bg-white hover:text-[#201A5B] transition-all duration-300 shadow-md rounded-[4px] whitespace-nowrap cursor-pointer group"
                 >
                   <span>Explore Curriculum</span>
                   <ArrowRight size={14} className="transition-transform duration-300 group-hover:translate-x-1" />
-                </motion.button>
+                </motion.a>
                 <motion.button 
                   whileHover={{ scale: 1.02, y: -2 }}
                   whileTap={{ scale: 0.98 }}
