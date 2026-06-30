@@ -1,6 +1,6 @@
 import { useState, ReactNode } from 'react';
 import { motion, AnimatePresence } from 'motion/react';
-import { Cpu, Trophy, GraduationCap, Bus } from 'lucide-react';
+import { Cpu, Trophy, GraduationCap, Bus, ChevronDown } from 'lucide-react';
 
 interface DistinctionItem {
   id: string;
@@ -104,8 +104,8 @@ export default function WhatSetsUsApart() {
           </p>
         </div>
 
-        {/* Premium Swappable Tabs Row */}
-        <div className="flex justify-center mb-10 w-full px-2 md:px-0">
+        {/* Premium Swappable Tabs Row (Desktop Only) */}
+        <div className="hidden md:flex justify-center mb-10 w-full px-2 md:px-0">
           <div className="grid grid-cols-2 md:flex md:flex-nowrap bg-white/90 backdrop-blur-md p-1.5 rounded-[8px] shadow-md gap-1.5 w-full md:w-auto">
             {ITEMS.map((item) => {
               const isActive = item.id === activeTab;
@@ -130,8 +130,8 @@ export default function WhatSetsUsApart() {
           </div>
         </div>
 
-        {/* Dynamic single full-width container card with premium transitions */}
-        <div className="bg-white rounded-[8px] shadow-[0_24px_60px_rgba(32,26,91,0.06)] overflow-hidden min-h-[480px] flex relative group">
+        {/* Dynamic single full-width container card with premium transitions (Desktop Only) */}
+        <div className="hidden md:flex bg-white rounded-[8px] shadow-[0_24px_60px_rgba(32,26,91,0.06)] overflow-hidden min-h-[480px] relative group">
           {/* Subtle side accent line */}
           <div className="absolute top-0 left-0 w-2 h-full bg-brand-orange pointer-events-none" />
           
@@ -185,6 +185,95 @@ export default function WhatSetsUsApart() {
               </div>
             </motion.div>
           </AnimatePresence>
+        </div>
+
+        {/* Mobile Accordion System (Mobile Only) */}
+        <div className="block md:hidden space-y-4 w-full">
+          {ITEMS.map((item) => {
+            const isExpanded = activeTab === item.id;
+            return (
+              <div 
+                key={item.id}
+                className="bg-white rounded-[12px] border border-gray-100 shadow-sm overflow-hidden transition-all duration-300"
+              >
+                {/* Accordion Trigger Header */}
+                <button
+                  type="button"
+                  onClick={() => setActiveTab(isExpanded ? "" : item.id)}
+                  className={`w-full flex items-center justify-between p-4 text-left cursor-pointer transition-colors duration-200 focus:outline-none ${
+                    isExpanded ? "bg-gray-50/50" : "hover:bg-gray-50/20"
+                  }`}
+                >
+                  <div className="flex items-center gap-3">
+                    <div className={`w-9 h-9 rounded-full flex items-center justify-center ${item.iconBg} ${item.iconColor} shrink-0`}>
+                      {item.icon}
+                    </div>
+                    <div>
+                      <span className="text-[9px] tracking-wider uppercase font-bold text-brand-orange block leading-tight">
+                        {item.category}
+                      </span>
+                      <h4 className="text-[15px] font-bold text-brand-navy leading-snug">
+                        {item.title}
+                      </h4>
+                    </div>
+                  </div>
+                  <motion.div
+                    animate={{ rotate: isExpanded ? 180 : 0 }}
+                    transition={{ duration: 0.25 }}
+                    className="text-brand-navy/60 shrink-0 ml-2"
+                  >
+                    <ChevronDown size={18} />
+                  </motion.div>
+                </button>
+
+                {/* Accordion Expandable Content Panel */}
+                <AnimatePresence initial={false}>
+                  {isExpanded && (
+                    <motion.div
+                      initial={{ height: 0, opacity: 0 }}
+                      animate={{ height: "auto", opacity: 1 }}
+                      exit={{ height: 0, opacity: 0 }}
+                      transition={{ duration: 0.3, ease: "easeInOut" }}
+                      className="overflow-hidden"
+                    >
+                      <div className="p-4 pt-2 border-t border-gray-100/70 space-y-4">
+                        {/* Subtitle */}
+                        <p className="text-gray-400 font-medium text-[11px] leading-relaxed">
+                          {item.subtitle}
+                        </p>
+
+                        {/* Image */}
+                        <div className="w-full aspect-[16/10] rounded-[6px] overflow-hidden bg-gray-50 shadow-inner">
+                          <img
+                            src={item.image}
+                            alt={item.title}
+                            referrerPolicy="no-referrer"
+                            className="w-full h-full object-cover"
+                            loading="lazy"
+                          />
+                        </div>
+
+                        {/* Text Paragraphs */}
+                        <div className="space-y-3 text-gray-650 text-xs sm:text-sm leading-relaxed font-normal">
+                          <p>
+                            As one of the {" "}
+                            <strong className="text-brand-navy font-bold">{item.paragraph1[0]}</strong>
+                            , Pavna International School {item.paragraph1[1]} {" "}
+                            {item.id === "sports-excellence" && <strong className="text-brand-navy font-bold">horse riding, swimming, cricket, handball, lawn tennis, basketball</strong>}
+                            {item.id === "safe-transport" && <strong className="text-brand-navy font-bold"> fully air-conditioned, GPS-enabled buses</strong>}
+                            .
+                          </p>
+                          <p className="text-gray-550 font-normal">
+                            {item.paragraph2}
+                          </p>
+                        </div>
+                      </div>
+                    </motion.div>
+                  )}
+                </AnimatePresence>
+              </div>
+            );
+          })}
         </div>
 
       </div>

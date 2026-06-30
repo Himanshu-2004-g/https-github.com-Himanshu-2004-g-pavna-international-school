@@ -369,7 +369,8 @@ const BoardingPage: FC = () => {
             </p>
           </div>
 
-          <div className="grid grid-cols-1 lg:grid-cols-12 gap-12 items-center">
+          {/* Desktop Version (Desktop Only) */}
+          <div className="hidden lg:grid grid-cols-1 lg:grid-cols-12 gap-12 items-center">
             
             {/* Left Column: Simple Vertical Tabs */}
             <div className="lg:col-span-5 flex flex-col gap-3">
@@ -456,6 +457,85 @@ const BoardingPage: FC = () => {
               </div>
             </div>
 
+          </div>
+
+          {/* Mobile Accordion System (Mobile Only) */}
+          <div className="block lg:hidden space-y-4 w-full">
+            {FACILITIES.map((facility) => {
+              const isExpanded = activeTab === facility.id;
+              const TabIcon = facility.icon;
+              return (
+                <div 
+                  key={facility.id}
+                  className="bg-white rounded-2xl border border-neutral-150 shadow-xs overflow-hidden transition-all duration-300"
+                >
+                  {/* Accordion Trigger Header */}
+                  <button
+                    type="button"
+                    onClick={() => setActiveTab(isExpanded ? "" : facility.id)}
+                    className={`w-full flex items-center justify-between p-4.5 text-left cursor-pointer transition-colors duration-200 focus:outline-none ${
+                      isExpanded ? "bg-brand-orange/5" : "hover:bg-neutral-50/50"
+                    }`}
+                  >
+                    <div className="flex items-center gap-3.5">
+                      <div className={`w-10 h-10 rounded-xl flex items-center justify-center shrink-0 transition-all duration-300 ${
+                        isExpanded 
+                          ? "bg-brand-orange text-white" 
+                          : "bg-neutral-50 text-brand-orange"
+                      }`}>
+                        <TabIcon size={18} />
+                      </div>
+                      <span className="text-[13px] sm:text-[14px] font-bold tracking-wide uppercase text-brand-navy">
+                        {facility.tabTitle}
+                      </span>
+                    </div>
+                    <motion.div
+                      animate={{ rotate: isExpanded ? 180 : 0 }}
+                      transition={{ duration: 0.25 }}
+                      className="text-brand-navy/60 shrink-0 ml-2"
+                    >
+                      <ChevronDown size={18} />
+                    </motion.div>
+                  </button>
+
+                  {/* Accordion Expandable Content Panel */}
+                  <AnimatePresence initial={false}>
+                    {isExpanded && (
+                      <motion.div
+                        initial={{ height: 0, opacity: 0 }}
+                        animate={{ height: "auto", opacity: 1 }}
+                        exit={{ height: 0, opacity: 0 }}
+                        transition={{ duration: 0.3, ease: "easeInOut" }}
+                        className="overflow-hidden"
+                      >
+                        <div className="p-5 pt-2.5 border-t border-neutral-100/70 space-y-4.5">
+                          {/* Heading */}
+                          <h3 className="text-lg font-serif font-bold text-brand-navy leading-tight">
+                            {facility.heading}
+                          </h3>
+
+                          {/* Image */}
+                          <div className="w-full aspect-[16/10] rounded-xl overflow-hidden bg-neutral-100 shadow-sm">
+                            <img
+                              src={facility.image}
+                              alt={facility.heading}
+                              referrerPolicy="no-referrer"
+                              className="w-full h-full object-cover"
+                              loading="lazy"
+                            />
+                          </div>
+
+                          {/* Description */}
+                          <p className="text-[#4B5563] text-sm leading-relaxed font-medium">
+                            {facility.description}
+                          </p>
+                        </div>
+                      </motion.div>
+                    )}
+                  </AnimatePresence>
+                </div>
+              );
+            })}
           </div>
 
         </div>
